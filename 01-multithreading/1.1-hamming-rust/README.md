@@ -37,84 +37,30 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```bash
 cargo build --release
+cat data/words.txt
 ./target/release/hamming data/words.txt
 ./target/release/hamming data/words.txt -t 2
+./target/release/hamming data/names.txt
+./target/release/hamming data/big.txt -t 1
+./target/release/hamming data/big.txt -t 2
+./target/release/hamming data/big.txt -t 4
+./target/release/hamming data/big.txt -t 8
 ./target/release/hamming data/big.txt -t 8 -o matrix.txt
+head -c 300 matrix.txt
 ./target/release/hamming gen 3000 256 > data/big.txt
 ```
 
 Параметры:
+
 - `-t N` — число потоков (по умолчанию — число ядер процессора);
 - `-o файл` — записать матрицу в файл. Без этого параметра матрица выводится в консоль, если в ней не больше 20 строк.
 
 ## Данные
 
-| Файл | Содержимое |
-|---|---|
-| `data/words.txt` | 3 двоичные строки длины 5 |
-| `data/names.txt` | 3 слова длины 7 |
-| `data/big.txt` | 3000 случайных двоичных строк длины 256 |
-| `data/bad.txt` | строки разной длины |
-| `data/empty.txt` | пустой файл |
-
-## Пример работы
-
-```
-$ ./target/release/hamming data/words.txt -t 2
-0 2 3
-2 0 5
-3 5 0
-строк: 3, длина: 5
-последовательно: 0.00 мс
-параллельно, потоков 2: 0.11 мс
-ускорение: 0.00
-результаты совпадают: да
-```
-
-На трёх строках запуск потоков занимает больше времени, чем само вычисление, поэтому ускорения нет.
-
-```
-$ ./target/release/hamming data/names.txt
-0 3 3
-3 0 4
-3 4 0
-```
-
-Большие данные (Apple M-серии, 8 ядер):
-
-```
-$ ./target/release/hamming data/big.txt -t 8
-матрица 3000x3000 слишком большая для консоли, укажите -o <файл>
-строк: 3000, длина: 256
-последовательно: 427.39 мс
-параллельно, потоков 8: 74.03 мс
-ускорение: 5.77
-результаты совпадают: да
-```
-
-| Потоков | Время, мс | Ускорение |
-|---|---|---|
-| 1 | 375 | 1.0 |
-| 2 | 210 | 1.8 |
-| 4 | 96 | 3.8 |
-| 8 | 74 | 5.1 |
-
-Ошибки:
-
-```
-$ ./target/release/hamming data/bad.txt
-Ошибка: строка 4: длина 4, ожидалось 5
-
-$ ./target/release/hamming data/empty.txt
-Ошибка: в файле нет строк
-
-$ ./target/release/hamming nofile.txt
-Ошибка: не удалось открыть файл nofile.txt
-
-$ ./target/release/hamming data/words.txt -t 0
-Ошибка: число потоков должно быть положительным целым числом
-```
-
-## Видео
-
-Ссылка на видео будет добавлена.
+| Файл             | Содержимое                              |
+| ---------------- | --------------------------------------- |
+| `data/words.txt` | 3 двоичные строки длины 5               |
+| `data/names.txt` | 3 слова длины 7                         |
+| `data/big.txt`   | 3000 случайных двоичных строк длины 256 |
+| `data/bad.txt`   | строки разной длины                     |
+| `data/empty.txt` | пустой файл                             |
