@@ -1,0 +1,12 @@
+{
+  "shop": "Книжный",
+  "open": false,
+  "id": "17",
+  "address": {"city": "Москва", "street": "Тверская", "house": 9, "floor": 2},
+  "books": [
+    {"title": "Война и мир", "price": 950, "stock": 3},
+    {"title": "Анна Каренина", "price": 700}
+  ],
+  "phones": ["+7 495 000-00-01", "+7 495 000-00-02"],
+  "note": null
+}
